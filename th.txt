@@ -1,0 +1,23 @@
+pip install virtualenv
+
+create folder named anything
+
+
+create virtalenv:
+	open cmd from that folder
+
+	python -m virtualenv venv
+		
+		code .
+		 open terminal of vs code --> change to cmd
+
+		to activate script:
+			venv\scripts\activate
+
+
+install required packages
+
+pip install fastapi uvicorn motor pydantic
+
+to start fast server
+uvicron main:app --reload
