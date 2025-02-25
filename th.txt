@@ -1,3 +1,23 @@
+
+#http://localhost:8000/test
+#get api...
+@app.get("/test/")
+async def test():
+    return "Hello"
+
+@app.get("/users/")
+async def getAllUsers():
+    return {"message":"Users fatched successfully!!","users":["ram","shyam","seeta","geeta"]}
+
+
+@app.get("/user/{userId}")
+async def getUserById(userId:str):
+    return {"messafe":f"user found with id {userId}"}
+    #return  {"message":"user found with id "+userId}
+     
+
+
+
 pip install virtualenv
 
 create folder named anything
@@ -21,3 +41,23 @@ pip install fastapi uvicorn motor pydantic
 
 to start fast server
 uvicron main:app --reload
+
+
+main.py -->routes --> controllers [] -->models
+
+
+
+DATABASE connection:
+mongo db database:
+
+SQL                                              NOSQL :
+
+employee
+id name email age                                 {id,name,email,,age}      
+
+
+show database
+
+atleast collectiin
+
+post request:
