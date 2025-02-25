@@ -61,3 +61,6 @@ show database
 atleast collectiin
 
 post request:
+
+
+database connection : table bining --> controllers
