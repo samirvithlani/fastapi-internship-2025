@@ -7,3 +7,4 @@ DATABASE_NAME ="25_internship_fast"
 client = AsyncIOMotorClient(MONGO_URL)
 db = client[DATABASE_NAME]
 role_collection = db["roles"]
+user_collection = db["users"]
