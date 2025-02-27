@@ -64,3 +64,50 @@ post request:
 
 
 database connection : table bining --> controllers
+
+
+roles:
+edoctor:
+
+doctor
+pait.
+admin
+
+
+ecom
+
+admin
+vendor
+user
+
+user register:
+SQL:
+role table
+3.
+..
+..
+..
+
+
+user
+fileds
+role_  fk
+
+------------------------
+
+vendor:
+product
+
+----------------------------
+
+faculty
+coor..
+admin...
+
+
+
+
+users : find... {roleId}
+
+
+
