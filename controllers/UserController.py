@@ -18,12 +18,17 @@ async def addUser(user:User):
 
 async def getAllUsers():
     users = await user_collection.find().to_list(length=None)
-    #print(users)
+
     for user in users:
-        #print(user)#single user object..
-        role = await role_collection.find_one({"_id":user["role_id"]}) #rolid
-        #print("role...",role)
-        user["role"] = role
-        #print("user.....",user)
-    #return {"ok":"ok"}
+        # Convert role_id from ObjectId to str before validation
+        if "role_id" in user and isinstance(user["role_id"], ObjectId):
+            user["role_id"] = str(user["role_id"])
+        
+        # Fetch role details
+        role = await role_collection.find_one({"_id": ObjectId(user["role_id"])})  
+        
+        if role:
+            role["_id"] = str(role["_id"])  # Convert role _id to string
+            user["role"] = role
+
     return [UserOut(**user) for user in users]

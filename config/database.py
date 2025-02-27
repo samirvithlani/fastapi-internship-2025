@@ -8,3 +8,5 @@ client = AsyncIOMotorClient(MONGO_URL)
 db = client[DATABASE_NAME]
 role_collection = db["roles"]
 user_collection = db["users"]
+department_collection = db["departments"]
+employee_collection = db["employees"]
