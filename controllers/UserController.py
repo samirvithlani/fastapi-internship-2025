@@ -1,6 +1,8 @@
 from models.UserModel import User,UserOut
 from bson import ObjectId
 from config.database import user_collection,role_collection
+from fastapi import HTTPException
+import bcrypt
 
 async def addUser(user:User):
     #typeCast
@@ -32,3 +34,17 @@ async def getAllUsers():
             user["role"] = role
 
     return [UserOut(**user) for user in users]
+
+async def loginUser(email:str,password:str):
+    #norma; password : plain text --> encr
+    foundUser = await user_collection.find_one({"email":email})
+    if foundUser is None:
+        raise HTTPException(status_code=404,detail="User not found")
+    
+    #compare password
+    if "password" in foundUser and bcrypt.checkpw(password.encode(),foundUser["password"].encode()):
+        return {"message":"user login success"}
+        
+    else:
+        raise HTTPException(status_code=404,detail="Invalid password")
+    
