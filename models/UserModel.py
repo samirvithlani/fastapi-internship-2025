@@ -48,3 +48,7 @@ class UserOut(User):
         if isinstance(v, dict) and "_id" in v:
             v["_id"] = str(v["_id"])  # Convert role _id to string
         return v
+    
+class UserLogin(BaseModel):
+    email:str
+    password:str    

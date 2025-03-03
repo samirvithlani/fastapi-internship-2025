@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from controllers.UserController import addUser,getAllUsers,loginUser
-from models.UserModel import User,UserOut
+from models.UserModel import User,UserOut,UserLogin
 
 router = APIRouter()
 
@@ -12,6 +12,6 @@ async def post_user(user:User):
 async def get_users():
     return await getAllUsers()
 
-@router.get("/user/login/")
-async def login_user(email:str,password:str):
-    return await loginUser(email,password)
+@router.post("/user/login/")
+async def login_user(user:UserLogin):
+    return await loginUser(user)
