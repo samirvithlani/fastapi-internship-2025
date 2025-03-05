@@ -24,6 +24,21 @@ async def getCity():
     
     return [CityOut(**city) for city in cities]
 
+
+async def getCityByStateId(state_id:str):
+    print("state id",state_id)
+    cities = await city_collection.find({"state_id":state_id}).to_list()
+    for city in cities:
+        if "state_id" in city and isinstance(city["state_id"], ObjectId):
+            city["state_id"] = str(city["state_id"])
+        
+        state  = await state_collection.find_one({"_id":ObjectId(city["state_id"])})    
+        if state:
+            state["_id"] = str(state["_id"])
+            city["state"] = state
+    
+    return [CityOut(**city) for city in cities]
+    
     
 
 
