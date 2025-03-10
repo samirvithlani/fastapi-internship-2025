@@ -4,7 +4,7 @@ from config.database import user_collection,role_collection
 from fastapi import HTTPException
 from fastapi.responses import JSONResponse
 import bcrypt
-
+from utils.SendMail import send_mail
 
 async def addUser(user:User):
     #typeCast
@@ -13,6 +13,8 @@ async def addUser(user:User):
     user.role_id = ObjectId(user.role_id)
     print("after type cast",user.role_id)
     result = await user_collection.insert_one(user.dict())
+    send_mail(user.email,"User Created","User created successfully")
+    #mail...
     #return {"Message":"user created successfully"}
     
     return JSONResponse(status_code=201,content={"message":"User created successfully"})
