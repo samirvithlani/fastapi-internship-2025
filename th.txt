@@ -108,9 +108,15 @@ admin...
 
 
 users : find... {roleId}
-
-
 emploeyee department:
+
+
+server:
+database:
+cloud: aws s3 bucket,cloundinary,firebase storage,google drive
+
+2 step:
+
 
 
 
