@@ -118,5 +118,15 @@ cloud: aws s3 bucket,cloundinary,firebase storage,google drive
 2 step:
 
 
+def test(obj):
+
+
+def test(name,email,age,status)
+
+
+froentend : imageUpload --> server fast api --> upload cloundinary : --> url -->secure_url ==>
+secure_url --> database --> user --
+
+
 
 
