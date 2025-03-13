@@ -10,7 +10,7 @@ cloudinary.config(
 
 #util functionn...
 
-async def upload_image(image):
+async def upload_image(image:bytes):
     result = upload(image)
     print("cloundianry response,",result)
     return result["secure_url"] #string
