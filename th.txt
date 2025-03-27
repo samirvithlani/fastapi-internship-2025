@@ -129,4 +129,12 @@ secure_url --> database --> user --
 
 
 
+{50} --> xyz
+email :--> database --> email -->if yes --> user --> token[jwt] --> mail
+button --> clicck --> react component / token
+new password --> restpassword --> token [user] --> email fetch -> update->
+
+
+
+
 

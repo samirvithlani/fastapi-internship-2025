@@ -1,10 +1,12 @@
-from models.UserModel import User,UserOut,UserLogin
+from models.UserModel import User,UserOut,UserLogin,ResetPasswordReq
 from bson import ObjectId
 from config.database import user_collection,role_collection
 from fastapi import HTTPException
 from fastapi.responses import JSONResponse
 import bcrypt
 from utils.SendMail import send_mail
+import datetime
+import jwt
 
 async def addUser(user:User):
     #typeCast
@@ -63,3 +65,44 @@ async def loginUser(request:UserLogin):
     else:
         raise HTTPException(status_code=404,detail="Invalid password")
     
+SECRET_KEY ="royal"
+def generate_token(email:str):
+    expiration =datetime.datetime.utcnow()+datetime.timedelta(hours=1)
+    payload = {"sub":email,"exp":expiration}
+    token = jwt.encode(payload,SECRET_KEY,algorithm="HS256")
+    return token
+
+
+async def forgotPassword(email:str):
+    foundUser = await user_collection.find_one({"email":email})
+    if not foundUser:
+        raise HTTPException(status_code=404,detail="email not found")
+    
+    token = generate_token(email)
+    resetLink = f"http://localhost:5173/resetpassword/{token}"
+    body = f"""
+    <html>
+        <h1>HELLO THIS IS RESET PASSWORD LINK EXPIRES IN 1 hour</h1>
+        <a href= "{resetLink}">RESET PASSWORD</a>
+    </html>
+    """
+    subject = "RESET PASSWORD"
+    send_mail(email,subject,body)
+    return {"message":"reset link sent successfully"}
+    
+
+async def resetPassword(data:ResetPasswordReq):
+    try:
+        payload =jwt.decode(data.token,SECRET_KEY,algorithms="HS256") #{"sub":"email...",exp:}
+        email = payload.get("sub")
+        if not email:
+            raise HTTPException(status_code=421,detail="token is not valid...")
+        
+        hashed_password = bcrypt.hashpw(data.password.encode('utf-8'),bcrypt.gensalt())
+        await user_collection.update_one({"email":email},{"$set":{"password":hashed_password}})
+        
+        return {"message":"password updated successfully"}
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(status_code=500,detail="jwt is expired")
+    except jwt.InvalidTokenError:
+        raise HTTPException(status_code=500,detail="jwt is invalid")    
