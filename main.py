@@ -10,7 +10,8 @@ from routes.SubCategoryRoutes import router as sub_category_router
 from routes.ProductRoutes import router as product_router
 #import cors middleware
 from fastapi.middleware.cors import CORSMiddleware
-
+import datetime
+from apscheduler.schedulers.background import BackgroundScheduler
 
 app = FastAPI()
 
@@ -34,3 +35,24 @@ app.include_router(product_router)
 
 
 #routes
+
+
+def schedual_task():
+    #update..
+    print(f"[{datetime.datetime.now()}] - Runing Task")
+    
+scheduler  =BackgroundScheduler()    
+
+#scheduler.add_job(schedual_task,'cron',second="*")
+scheduler.add_job(schedual_task,'cron',second="*")
+scheduler.start()
+
+@app.get('/')
+async def root():
+    return {"message":"cron job staarts.."}
+
+
+
+#user 10:11 --> update --> isBooked true : 11-10 -1 hour
+#1 isBooked false
+    
