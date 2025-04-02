@@ -91,18 +91,19 @@ async def forgotPassword(email:str):
     return {"message":"reset link sent successfully"}
     
 
-async def resetPassword(data:ResetPasswordReq):
+async def resetPassword(data: ResetPasswordReq):
     try:
-        payload =jwt.decode(data.token,SECRET_KEY,algorithms="HS256") #{"sub":"email...",exp:}
+        payload = jwt.decode(data.token, SECRET_KEY, algorithms="HS256")
         email = payload.get("sub")
         if not email:
-            raise HTTPException(status_code=421,detail="token is not valid...")
-        
-        hashed_password = bcrypt.hashpw(data.password.encode('utf-8'),bcrypt.gensalt())
-        await user_collection.update_one({"email":email},{"$set":{"password":hashed_password}})
-        
-        return {"message":"password updated successfully"}
+            raise HTTPException(status_code=421, detail="Token is not valid...")
+
+        # Hash the new password and decode the result to store it as a string
+        hashed_password = bcrypt.hashpw(data.password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+        await user_collection.update_one({"email": email}, {"$set": {"password": hashed_password}})
+
+        return {"message": "Password updated successfully"}
     except jwt.ExpiredSignatureError:
-        raise HTTPException(status_code=500,detail="jwt is expired")
+        raise HTTPException(status_code=500, detail="JWT is expired")
     except jwt.InvalidTokenError:
-        raise HTTPException(status_code=500,detail="jwt is invalid")    
+        raise HTTPException(status_code=500, detail="JWT is invalid")

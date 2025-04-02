@@ -45,7 +45,7 @@ scheduler  =BackgroundScheduler()
 
 #scheduler.add_job(schedual_task,'cron',second="*")
 scheduler.add_job(schedual_task,'cron',second="*")
-scheduler.start()
+#scheduler.start()
 
 @app.get('/')
 async def root():
