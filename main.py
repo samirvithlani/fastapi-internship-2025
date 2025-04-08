@@ -8,6 +8,7 @@ from routes.CityRoutes import router as city_router
 from routes.CategoryRoutes import router as category_router
 from routes.SubCategoryRoutes import router as sub_category_router
 from routes.ProductRoutes import router as product_router
+from routes.PaymentRoutes import router as payment_router
 #import cors middleware
 from fastapi.middleware.cors import CORSMiddleware
 import datetime
@@ -32,6 +33,7 @@ app.include_router(city_router)
 app.include_router(category_router)
 app.include_router(sub_category_router)
 app.include_router(product_router)
+app.include_router(payment_router)
 
 
 #routes
